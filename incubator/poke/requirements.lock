@@ -1,0 +1,9 @@
+dependencies:
+- name: zookeeper
+  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  version: 0.6.1
+- name: kafka
+  repository: http://storage.googleapis.com/kubernetes-charts-incubator
+  version: 0.4.3
+digest: sha256:bce537669aba5daf02a4bd6215f1bd982af142e44265df8be94702e3bdf5f4dd
+generated: 2018-03-20T12:18:27.418537493+01:00
