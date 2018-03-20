@@ -1,0 +1,1 @@
+helm install ./poke/ --name $R_NAME
