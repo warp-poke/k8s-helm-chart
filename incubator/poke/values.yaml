@@ -1,36 +1,41 @@
-
-zookeeper:
-  enabled: false
-
-
-
 # Default values for poke.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+zookeeper:
+  enabled: false
+
+warp:
+#  standalone: true # TODO
+  image:
+    repository: warp10io/warp10
+    tag: "1.2.15"
+    pullPolicy: IfNotPresent
+
+
 replicaCount: 1
 
-image:
-  repository: nginx
-  tag: stable
-  pullPolicy: IfNotPresent
+# image:
+#   repository: nginx
+#   tag: stable
+#   pullPolicy: IfNotPresent
 
-service:
-  type: ClusterIP
-  port: 80
+# service:
+#   type: ClusterIP
+#   port: 80
 
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - chart-example.local
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+# ingress:
+#   enabled: false
+#   annotations: {}
+#     # kubernetes.io/ingress.class: nginx
+#     # kubernetes.io/tls-acme: "true"
+#   path: /
+#   hosts:
+#     - chart-example.local
+#   tls: []
+#   #  - secretName: chart-example-tls
+#   #    hosts:
+#   #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

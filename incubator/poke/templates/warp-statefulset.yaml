@@ -1,0 +1,52 @@
+apiVersion: apps/v1beta2
+kind: StatefulSet
+metadata:
+  name: {{ template "poke.fullname" . }}-warp10
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: warp10
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "poke.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "poke.name" . }}
+        release: {{ .Release.Name }}
+        component: warp10
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}-warp10
+          image: {{ .Values.warp.image.repository }}
+          tag: {{ .Values.warp.image.tag }}
+          imagePullPolicy: {{ .Values.warp.image.pullPolicy }}
+          ports:
+            - name: api
+              containerPort: 8080
+              protocol: HTTP
+            - name: quantum
+              containerPort: 8090
+              protocol: HTTP
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 10
+          volumeMounts:
+            mountPath: "/opt/warp/leveldb"
+            name: leveldb
+      volumes:
+      - name: leveldb
+        persistentVolumeClaim:
+          claimName: {{ template "poke.name" . }}-warp10
