@@ -1,4 +1,4 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
   name: {{ template "poke.fullname" . }}-warp10
@@ -21,6 +21,7 @@ spec:
         release: {{ .Release.Name }}
         component: warp10
     spec:
+      restartPolicy: Always
       containers:
         - name: {{ .Chart.Name }}-warp10
           image: {{ .Values.warp.image.repository }}
@@ -29,10 +30,10 @@ spec:
           ports:
             - name: api
               containerPort: 8080
-              protocol: HTTP
+              protocol: TCP
             - name: quantum
-              containerPort: 8090
-              protocol: HTTP
+              containerPort: 8081
+              protocol: TCP
           livenessProbe:
             tcpSocket:
               port: 8080
@@ -44,7 +45,7 @@ spec:
               initialDelaySeconds: 5
               periodSeconds: 10
           volumeMounts:
-            mountPath: "/opt/warp/leveldb"
+          - mountPath: "/opt/warp/leveldb"
             name: leveldb
       volumes:
       - name: leveldb

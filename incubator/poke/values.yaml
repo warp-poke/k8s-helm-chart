@@ -4,6 +4,10 @@
 
 zookeeper:
   enabled: false
+  servers: 3
+
+kafka:
+  replicas: 3
 
 warp:
 #  standalone: true # TODO
@@ -11,6 +15,9 @@ warp:
     repository: warp10io/warp10
     tag: "1.2.15"
     pullPolicy: IfNotPresent
+  pvc:
+    size: 1Gi
+    accessMode: ReadWriteOnce
 
 
 replicaCount: 1

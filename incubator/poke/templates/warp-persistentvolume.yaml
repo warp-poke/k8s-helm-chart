@@ -9,8 +9,9 @@ metadata:
     heritage: {{ .Release.Service }}
     component: warp10
 spec:
-  storageClassName: manual
-  capacity:
-    storage: 10Gi
   accessModes:
-    - ReadWriteOnce
+  - {{ .Values.warp.pvc.accessMode }}
+  resources:
+    requests:
+      storage: {{ .Values.warp.pvc.size }}
+  0: ""
