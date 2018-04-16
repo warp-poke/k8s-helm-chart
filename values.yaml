@@ -18,7 +18,25 @@ warp:
   pvc:
     size: 1Gi
     accessMode: ReadWriteOnce
+  config:
+    warp:
+      hash:
+        labels: hex:cafecafecafecafecafecafecafecafe
+        class: hex:cafecafecafecafecafecafecafecafe
+        index: hex:cafecafecafecafecafecafecafecafe
+        token: hex:cafecafecafecafecafecafecafecafe
+        app: hex:cafecafecafecafecafecafecafecafe
+      aes:
+        token: hex:cafecafecafecafecafecafecafecafecafecafecafecafecafecafecafecafe
+        scripts: hex:cafecafecafecafecafecafecafecafecafecafecafecafecafecafecafecafe
+        metasets: hex:cafecafecafecafecafecafecafecafecafecafecafecafecafecafecafecafe
 
+poke:
+  api:
+    image: 
+      repository: wpoke/poke-api
+      tag: "latest"
+      pullPolicy: IfNotPresent
 
 replicaCount: 1
 

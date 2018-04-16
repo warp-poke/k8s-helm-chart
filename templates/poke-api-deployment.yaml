@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "poke.fullname" . }}-poke-api
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: poke-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "poke.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "poke.name" . }}
+        release: {{ .Release.Name }}
+        component: poke-api
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: {{ .Chart.Name }}-poke-api
+          image: {{ .Values.poke.api.image.repository }}
+          tag: {{ .Values.poke.api.image.tag }}
+          imagePullPolicy: {{ .Values.poke.api.image.pullPolicy }}
+      envFrom:
+      - configMapRef:
+          name: poke-configmap

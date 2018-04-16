@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: poke-api-configmap
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  SCHEDULER_ENABLED: 
+  APP_SECRET:
+  MACAROONS_SECRET:
+  JAAS_PATH:
+  POSTGRESQL_ADDON_URI:
+  POSTGRESQL_ADDON_PORT:
+  POSTGRESQL_ADDON_DB:
+  POSTGRESQL_ADDON_USER:
+  POSTGRESQL_ADDON_PASSWORD:
+  POSTGRESQL_ADDON_HOST:
+  WARP_PRODUCER:
+  WARP_SIP_HASH_APP:
+  WARP_SIP_HASH_TOKEN:
+  WARP_AES_TOKEN:
+  WARP_ENDPOINT:
+  KAFKA_HOST:
+  KAFKA_HTTPCHECKS_TOPIC:
+  KAFKA_ENDPOINT:
+  KAFKA_WRITER_USER:
+  KAFKA_WRITER_PASSWORD:
+  KAFKA_SECURITY_PROTOCOL: PLAINTEXT

@@ -14,4 +14,3 @@ spec:
   resources:
     requests:
       storage: {{ .Values.warp.pvc.size }}
-  0: ""
