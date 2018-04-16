@@ -5,10 +5,11 @@ Kubernetes chart to deploy Poke stack on k8s:
 * Warp10 (in standalone mode)
 * Kafka
 * Zookeeper
+* PostgreSQL
 
 ````bash
-helm dependency list ./poke/
-helm dependency update ./poke/
+helm dependency list
+helm dependency update
 
-helm install ./poke/ --name "poke"
+helm install --name "poke"
 ````
