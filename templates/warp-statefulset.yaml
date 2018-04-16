@@ -27,6 +27,9 @@ spec:
           image: {{ .Values.warp.image.repository }}
           tag: {{ .Values.warp.image.tag }}
           imagePullPolicy: {{ .Values.warp.image.pullPolicy }}
+          command:
+          - "/bin/bash"
+          - "/tmp/warp-config/start.sh"
           ports:
             - name: api
               containerPort: 8080
@@ -47,7 +50,12 @@ spec:
           volumeMounts:
           - mountPath: "/opt/warp/leveldb"
             name: leveldb
+          - name: warp-config
+            mountPath: /tmp/warp-config
       volumes:
       - name: leveldb
         persistentVolumeClaim:
           claimName: {{ template "poke.name" . }}-warp10
+      - name: warp-config
+        configMap:
+          name: warp-configmap
