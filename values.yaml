@@ -37,6 +37,20 @@ poke:
       repository: wpoke/poke-api
       tag: "latest"
       pullPolicy: IfNotPresent
+  agent:
+    http:
+      image: 
+        repository: wpoke/http-rust-agent
+        tag: "latest"
+        pullPolicy: IfNotPresent
+    dns:
+      image: 
+        repository: wpoke/http-rust-agent
+        tag: "latest"
+        pullPolicy: IfNotPresent
+  topics:
+    http: 'poke.http'
+    dns: 'poke.dns'
 
 replicaCount: 1
 

@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "poke.fullname" . }}-http-agent
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: http-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "poke.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "poke.name" . }}
+        release: {{ .Release.Name }}
+        component: http-agent
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: {{ .Chart.Name }}-http-agent
+          image: {{ .Values.poke.agent.http.image.repository }}
+          tag: {{ .Values.poke.agent.http.image.tag }}
+          imagePullPolicy: {{ .Values.poke.agent.http.image.pullPolicy }}
+      envFrom:
+      - configMapRef:
+          name: http-agent-configmap

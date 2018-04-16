@@ -1,0 +1,32 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "poke.fullname" . }}-dns-agent
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: dns-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "poke.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "poke.name" . }}
+        release: {{ .Release.Name }}
+        component: dns-agent
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: {{ .Chart.Name }}-dns-agent
+          image: {{ .Values.poke.agent.dns.image.repository }}
+          tag: {{ .Values.poke.agent.dns.image.tag }}
+          imagePullPolicy: {{ .Values.poke.agent.dns.image.pullPolicy }}
+      envFrom:
+      - configMapRef:
+          name: dns-agent-configmap

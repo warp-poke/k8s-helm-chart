@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: dns-agent-configmap
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  BROKER: poke-kafka-0
+  TOPIC: '{{ .Values.poke.topics.dns }}'
+  CONSUMER_GROUP: 'dns-agent-consumer-group'
+  HOST: 'kubernetes'
+  ZONE: 'EU'
+  DNS: '8.8.8.8'

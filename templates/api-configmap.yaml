@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: poke-api-configmap
+  name: api-configmap
   labels:
     app: {{ template "poke.name" . }}
     chart: {{ template "poke.chart" . }}
@@ -13,19 +13,19 @@ data:
   MACAROONS_SECRET: 'i-love-macaroons'
   JAAS_PATH: 'conf/kafkacreds.jaas'
   INTERNAL_AUTH_TOKEN: 'internal-auth-token'
-  POSTGRESQL_ADDON_URI: 'postgresql://poke-postgres:1363'
-  POSTGRESQL_ADDON_PORT: '1363'
+  POSTGRESQL_ADDON_URI: 'postgresql://poke-postgresql:5432'
   POSTGRESQL_ADDON_DB: 'db'
+  POSTGRESQL_ADDON_PORT: '5432'
   POSTGRESQL_ADDON_USER: 'user'
   POSTGRESQL_ADDON_PASSWORD: 'awesome-password'
-  POSTGRESQL_ADDON_HOST: 'poke-postgres'
+  POSTGRESQL_ADDON_HOST: 'poke-postgresql'
   WARP_PRODUCER: '3d3d3d3d-3333-3333-3333-3d3d3d3d3d3d3d3d'
   WARP_SIP_HASH_APP: '{{ .Values.warp.config.warp.hash.app }}'
   WARP_SIP_HASH_TOKEN: '{{ .Values.warp.config.warp.hash.token }}'
   WARP_AES_TOKEN: '{{ .Values.warp.config.warp.aes.token }}'
   WARP_ENDPOINT: 'poke-warp-0:8080'
   KAFKA_HOST: 'poke-kafka-0:9092'
-  KAFKA_HTTPCHECKS_TOPIC: 'poke.http'
+  KAFKA_HTTPCHECKS_TOPIC: '{{ .Values.poke.topics.http }}'
   KAFKA_ENDPOINT: 'poke-kafka-0:9092'
   KAFKA_WRITER_USER: ''
   KAFKA_WRITER_PASSWORD: ''

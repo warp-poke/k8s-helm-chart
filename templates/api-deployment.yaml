@@ -1,13 +1,13 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "poke.fullname" . }}-poke-api
+  name: {{ template "poke.fullname" . }}-api
   labels:
     app: {{ template "poke.name" . }}
     chart: {{ template "poke.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-    component: poke-api
+    component: api
 spec:
   replicas: 1
   selector:
@@ -19,14 +19,14 @@ spec:
       labels:
         app: {{ template "poke.name" . }}
         release: {{ .Release.Name }}
-        component: poke-api
+        component: api
     spec:
       restartPolicy: Always
       containers:
-        - name: {{ .Chart.Name }}-poke-api
+        - name: {{ .Chart.Name }}-api
           image: {{ .Values.poke.api.image.repository }}
           tag: {{ .Values.poke.api.image.tag }}
           imagePullPolicy: {{ .Values.poke.api.image.pullPolicy }}
       envFrom:
       - configMapRef:
-          name: poke-configmap
+          name: api-configmap
