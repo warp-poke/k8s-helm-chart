@@ -13,7 +13,7 @@ spec:
   - host: warp.poke.digital.local
   - http:
       paths:
-      - path: /
+      - path: /.*
         backend:
           serviceName: warp
           servicePort: 8080
