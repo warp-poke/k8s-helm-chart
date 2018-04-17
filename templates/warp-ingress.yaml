@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "poke.name" . }}-warp
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: warp
+spec:
+  rules:
+  - host: warp.poke.digital.local
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: warp
+          servicePort: 8080

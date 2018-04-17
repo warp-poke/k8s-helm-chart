@@ -15,7 +15,7 @@ spec:
     name: restapi
   - port: 8090
     name: quantum
-  clusterIP: "None"
+  #clusterIP: "None"
   selector:
     app: {{ template "poke.name" . }}
     release: {{ .Release.Name }}

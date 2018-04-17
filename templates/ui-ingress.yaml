@@ -1,6 +1,5 @@
-# A headless service to create DNS records
-apiVersion: v1
-kind: Service
+apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
   name: {{ template "poke.name" . }}-ui
   labels:
@@ -10,11 +9,11 @@ metadata:
     heritage: {{ .Release.Service }}
     component: ui
 spec:
-  ports:
-  - port: 8080
-    name: web
-#  clusterIP: "None"
-  selector:
-    app: {{ template "poke.name" . }}
-    release: {{ .Release.Name }}
-component: ui
+  rules:
+  - host: poke.digital.local
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: poke-ui
+          servicePort: 9000

@@ -1,0 +1,36 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: sozu-configmap
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+data:
+  sozu.toml: |+
+    # sozu proxy test config file
+    command_socket = "/var/run/sozu/socket"
+    saved_state    = "/tmp/sozu-state.json"
+    log_level      = "debug"
+    log_target     = "stdout"
+    command_buffer_size = 16384
+    [metrics]
+    address = "192.168.59.103"
+    port = 8125
+    [proxies]
+    [proxies.HTTP]
+    address = "0.0.0.0"
+    proxy_type = "HTTP"
+    max_connections = 2000
+    port = 80
+    buffer_size = 16384
+    worker_count = 1
+    [applications]
+  traefik.toml: |+
+    [web]
+    address = ":8080"
+    [kubernetes]
+    [entryPoints]
+      [entryPoints.http]
+        address = ":8081"

@@ -1,0 +1,87 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: {{ template "poke.name" . }}-sozu
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: sozu
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      k8s-app: sozu-ingress-lb
+  template:
+    metadata:
+      labels:
+        k8s-app: sozu-ingress-lb
+        name: sozu-ingress-lb
+    spec:
+      terminationGracePeriodSeconds: 60
+      volumes:
+      - name: sozu-socket
+        emptyDir: {}
+      - name: sozu-config
+        configMap:
+          name: sozu-configmap
+      containers:
+      - name: sozu-ingress-lb
+        image: clevercloud/sozu:0.1.1
+        imagePullPolicy: Always
+        command: ["/sozu"]
+        args:
+        - start
+        - -c
+        - /etc/sozu/sozu.toml
+        volumeMounts:
+        - name: sozu-socket
+          mountPath: /var/run/sozu/
+        - name: sozu-config
+          mountPath: /etc/sozu
+        resources:
+          limits:
+            cpu: 200m
+            memory: 70Mi
+          requests:
+            cpu: 100m
+            memory: 70Mi
+        ports:
+        - containerPort: 80
+          hostPort: 80
+      - name: traefik-ingress-configuration
+        image: traefik
+        args:
+        - --configFile=/etc/sozu/traefik.toml
+        volumeMounts:
+        - name: sozu-config
+          mountPath: /etc/sozu
+        resources:
+          limits:
+            cpu: 200m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+            memory: 20Mi
+        ports:
+        - containerPort: 8080
+      - name: sozu-ingress-manager
+        image: geal/manager
+        args:
+        - --config
+        - /etc/sozu/sozu.toml
+        - --api
+        - 'http://127.0.0.1:8080/api'
+        volumeMounts:
+        - name: sozu-socket
+          mountPath: /var/run/sozu/
+        - name: sozu-config
+          mountPath: /etc/sozu
+        resources:
+          limits:
+            cpu: 200m
+            memory: 30Mi
+          requests:
+            cpu: 100m
+memory: 20Mi
