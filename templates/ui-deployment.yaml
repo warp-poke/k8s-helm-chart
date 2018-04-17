@@ -1,0 +1,41 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "poke.fullname" . }}-ui
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ template "poke.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ template "poke.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "poke.name" . }}
+        release: {{ .Release.Name }}
+        component: ui
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: {{ .Chart.Name }}-ui
+          image: {{ .Values.poke.ui.image.repository }}
+          tag: {{ .Values.poke.ui.image.tag }}
+          imagePullPolicy: {{ .Values.poke.ui.image.pullPolicy }}
+          command: ["npm"]
+          args: ["run", "start"]
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+              initialDelaySeconds: 15
+              periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+              initialDelaySeconds: 5
+              periodSeconds: 10

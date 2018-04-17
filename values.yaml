@@ -37,6 +37,11 @@ warp:
         metasets: hex:cafecafecafecafecafecafecafecafecafecafecafecafecafecafecafecafe
 
 poke:
+  ui:
+    image: 
+      repository: wpoke/poke-ui
+      tag: "latest"
+      pullPolicy: IfNotPresent
   api:
     image: 
       repository: wpoke/poke-api

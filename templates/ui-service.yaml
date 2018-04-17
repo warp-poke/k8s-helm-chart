@@ -1,0 +1,20 @@
+# A headless service to create DNS records
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "poke.name" . }}-ui
+  labels:
+    app: {{ template "poke.name" . }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    component: ui
+spec:
+  ports:
+  - port: 8080
+    name: web
+  clusterIP: "None"
+  selector:
+    app: {{ template "poke.name" . }}
+    release: {{ .Release.Name }}
+component: ui
