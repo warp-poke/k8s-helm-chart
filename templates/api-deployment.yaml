@@ -1,4 +1,4 @@
-apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
   name: {{ template "poke.fullname" . }}-api
@@ -27,6 +27,6 @@ spec:
           image: {{ .Values.poke.api.image.repository }}
           tag: {{ .Values.poke.api.image.tag }}
           imagePullPolicy: {{ .Values.poke.api.image.pullPolicy }}
-      envFrom:
-      - configMapRef:
-          name: api-configmap
+          envFrom:
+            - configMapRef:
+                name: api-configmap
