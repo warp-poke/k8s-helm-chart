@@ -30,3 +30,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: dns-agent-configmap
+          command: ["/usr/bin/poke-agent"]
+          args: ["daemon"]

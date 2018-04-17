@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  BROKER: poke-kafka-0
+  BROKER: poke-kafka
   TOPIC: '{{ .Values.poke.topics.http }}'
   CONSUMER_GROUP: 'http-agent-consumer-group'
   HOST: 'kubernetes'

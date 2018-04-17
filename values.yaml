@@ -6,6 +6,11 @@ zookeeper:
   enabled: false
   servers: 1
 
+postgresql:
+  postgresUser: poke
+  postgresPassword: poke
+  postgresDatabase: poke
+
 kafka:
   replicas: 1
 

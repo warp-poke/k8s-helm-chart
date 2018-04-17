@@ -27,6 +27,22 @@ spec:
           image: {{ .Values.poke.api.image.repository }}
           tag: {{ .Values.poke.api.image.tag }}
           imagePullPolicy: {{ .Values.poke.api.image.pullPolicy }}
+          command: ["/opt/bin/poke-api"]
+          args: ["-Dplay.evolutions.db.default.autoApply=true"]
           envFrom:
             - configMapRef:
                 name: api-configmap
+          ports:
+            - name: api
+              containerPort: 9000
+              protocol: TCP
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+              initialDelaySeconds: 15
+              periodSeconds: 20
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+              initialDelaySeconds: 5
+              periodSeconds: 10

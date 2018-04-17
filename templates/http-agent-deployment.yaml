@@ -30,3 +30,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: http-agent-configmap
+          command: ["/usr/bin/poke-agent"]
+          args: ["daemon", "-c", "/etc/poke-agent/config.toml"]
